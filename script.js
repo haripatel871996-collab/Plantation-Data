@@ -39,13 +39,32 @@ function showSignup() {
 }
 
 function signup() {
+function signup() {
   let newUser = document.getElementById('newUser').value;
+  let newEmail = document.getElementById('newEmail').value;
+  let newMobile = document.getElementById('newMobile').value;
   let newPass = document.getElementById('newPass').value;
-  if (users.find(u => u.username === newUser)) {
-    alert("Username already exists!");
+
+  // Basic validation
+  if (!newUser || !newEmail || !newMobile || !newPass) {
+    alert("Please fill all fields!");
     return;
   }
-  users.push({username: newUser, password: newPass});
+
+  // Check if user already exists (by email or mobile)
+  if (users.find(u => u.email === newEmail || u.mobile === newMobile)) {
+    alert("User with this Email or Mobile already exists!");
+    return;
+  }
+
+  // Save user
+  users.push({
+    username: newUser,
+    email: newEmail,
+    mobile: newMobile,
+    password: newPass
+  });
+
   localStorage.setItem("users", JSON.stringify(users));
   alert("User Registered Successfully!");
   backToLogin();
