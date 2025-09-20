@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Plantation Data Entry</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h2 style="text-align:center;">🌱 Plantation Web App</h2>
+
+  <!-- Login Page -->
+  <div id="loginPage" class="card">
+    <h3>🔐 Login</h3>
+    <input type="text" id="username" placeholder="Enter Username" required>
+    <input type="password" id="password" placeholder="Enter Password" required>
+    <button onclick="login()">Login</button>
+    <p style="font-size:14px;">(Hint: Username: <b>admin</b>, Password: <b>1234</b>)</p>
+  </div>
+
+  <!-- Main Form Page -->
+  <div id="mainPage" class="hidden">
+    <h3>📋 Plantation Data Entry Form</h3>
+    <form id="plantationForm">
+      <input type="text" id="range" placeholder="Range" required>
+      <input type="text" id="scheme" placeholder="Scheme" required>
+      <input type="text" id="model" placeholder="Model" required>
+      <input type="text" id="village" placeholder="Village/Center" required>
+      <input type="number" id="area" placeholder="Plantation Area (Ha)" required>
+      <input type="number" id="plants" placeholder="Plants Planted" required>
+      <input type="text" id="gps" placeholder="GPS Coordinates" required>
+      <button type="submit">Save</button>
+    </form>
+
+    <h3>📊 Records</h3>
+    <table id="dataTable">
+      <tr>
+        <th>Range</th><th>Scheme</th><th>Model</th><th>Village</th>
+        <th>Area (Ha)</th><th>Plants</th><th>GPS</th>
+      </tr>
+    </table>
+    <button onclick="logout()">🚪 Logout</button>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
