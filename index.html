@@ -18,13 +18,15 @@
   </div>
 
   <!-- Sign-Up Page -->
-  <div id="signupPage" class="card hidden">
-    <h3>📝 Sign Up</h3>
-    <input type="text" id="newUser" placeholder="Choose Username" required>
-    <input type="password" id="newPass" placeholder="Choose Password" required>
-    <button onclick="signup()">Register</button>
-    <button onclick="backToLogin()">Back to Login</button>
-  </div>
+<div id="signupPage" class="card hidden">
+  <h3>📝 Sign Up</h3>
+  <input type="text" id="newUser" placeholder="Full Name" required>
+  <input type="email" id="newEmail" placeholder="Email Address" required>
+  <input type="tel" id="newMobile" placeholder="Mobile Number" pattern="[0-9]{10}" required>
+  <input type="password" id="newPass" placeholder="Choose Password" required>
+  <button onclick="signup()">Register</button>
+  <button onclick="backToLogin()">Back to Login</button>
+</div>
 
   <!-- Forgot Password Page -->
   <div id="forgotPage" class="card hidden">
