@@ -1,79 +1,98 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
   <title>Plantation Data Entry</title>
-  <link rel="stylesheet" href="style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { font-family: Arial, sans-serif; background:#f9f9f9; padding:20px; }
+    .container { background:#fff; padding:20px; border-radius:10px; max-width:500px; margin:auto; box-shadow:0px 4px 10px rgba(0,0,0,0.2);}
+    h2 { text-align:center; }
+    label { display:block; margin-top:10px; }
+    input, select { width:100%; padding:8px; margin-top:5px; border-radius:6px; border:1px solid #ccc; }
+    button { margin-top:15px; width:100%; padding:10px; border:none; border-radius:6px; background:#28a745; color:#fff; font-size:16px; }
+    button:hover { background:#218838; }
+  </style>
 </head>
 <body>
-  <h2 style="text-align:center;">🌱 Plantation Web App</h2>
 
-  <!-- Login Page -->
-  <div id="loginPage" class="card">
-    <h3>🔐 Login</h3>
-    <input type="text" id="username" placeholder="Enter Username" required>
-    <input type="password" id="password" placeholder="Enter Password" required>
-    <button onclick="login()">Login</button>
-    <button onclick="showSignup()">Sign Up</button>
-    <button onclick="showForgot()">Forgot Password?</button>
-  </div>
-
-  <!-- Sign-Up Page -->
-<div id="signupPage" class="card hidden">
-  <h3>📝 Sign Up</h3>
-  <input type="text" id="newUser" placeholder="Full Name" required>
-  <input type="email" id="newEmail" placeholder="Email Address" required>
-  <input type="tel" id="newMobile" placeholder="Mobile Number" pattern="[0-9]{10}" required>
-  <input type="password" id="newPass" placeholder="Choose Password" required>
-  <button onclick="signup()">Register</button>
-  <button onclick="backToLogin()">Back to Login</button>
-</div>
-
-  <!-- Forgot Password Page -->
-  <div id="forgotPage" class="card hidden">
-    <h3>🔑 Reset Password</h3>
-    <input type="text" id="forgotUser" placeholder="Enter Username" required>
-    <input type="password" id="resetPass" placeholder="New Password" required>
-    <button onclick="resetPassword()">Reset</button>
-    <button onclick="backToLogin()">Back to Login</button>
-  </div>
-
-  <!-- Main Form Page -->
-  <div id="mainPage" class="hidden">
-    <h3>📋 Plantation Data Entry Form</h3>
+  <div class="container">
+    <h2>Plantation Data Entry</h2>
     <form id="plantationForm">
-      <input type="text" id="range" placeholder="Range" required>
-      <input type="text" id="scheme" placeholder="Scheme" required>
-      <input type="text" id="model" placeholder="Model" required>
-      <input type="text" id="village" placeholder="Village/Center" required>
-      <input type="number" id="area" placeholder="Plantation Area (Ha)" required>
-      <input type="number" id="plants" placeholder="Plants Planted" required>
-      <input type="text" id="gps" placeholder="GPS Coordinates" required>
-      <button type="submit">Save</button>
+      <label>Range</label>
+      <input type="text" id="range" required>
+
+      <label>Scheme</label>
+      <input type="text" id="scheme" required>
+
+      <label>Model</label>
+      <input type="text" id="model" required>
+
+      <label>Center/Village</label>
+      <input type="text" id="village" required>
+
+      <label>Plantation Area (Ha)</label>
+      <input type="number" id="area" step="0.01" required>
+
+      <label>Plants Planted</label>
+      <input type="number" id="plants" required>
+
+      <label>GPS Coordinates</label>
+      <input type="text" id="gps" placeholder="lat, long" required>
+
+      <button type="submit">Save Data</button>
     </form>
-
-    <h3>📊 Records</h3>
-    <table id="dataTable">
-      <tr>
-        <th>Range</th><th>Scheme</th><th>Model</th><th>Village</th>
-        <th>Area (Ha)</th><th>Plants</th><th>GPS</th>
-      </tr>
-    </table>
-
-    <button onclick="logout()">🚪 Logout</button>
   </div>
 
-  <!-- Admin Panel -->
-  <div id="adminPage" class="hidden">
-    <h3>👑 Admin Panel – Manage Users</h3>
-    <table id="userTable">
-      <tr>
-        <th>Username</th><th>Password</th><th>Action</th>
-      </tr>
-    </table>
-    <button onclick="backToMain()">⬅ Back to Dashboard</button>
-  </div>
+  <!-- Firebase -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-  <script src="script.js"></script>
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_PROJECT.firebaseapp.com",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_PROJECT.appspot.com",
+      messagingSenderId: "YOUR_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    // ✅ Ensure only logged-in users can access this page
+    onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        window.location.href = "index.html";
+      }
+    });
+
+    document.getElementById("plantationForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const data = {
+        range: document.getElementById("range").value,
+        scheme: document.getElementById("scheme").value,
+        model: document.getElementById("model").value,
+        village: document.getElementById("village").value,
+        area: parseFloat(document.getElementById("area").value),
+        plants: parseInt(document.getElementById("plants").value),
+        gps: document.getElementById("gps").value,
+        timestamp: new Date()
+      };
+
+      try {
+        await addDoc(collection(db, "plantationData"), data);
+        alert("Data saved successfully!");
+        document.getElementById("plantationForm").reset();
+      } catch (error) {
+        alert("Error: " + error.message);
+      }
+    });
+  </script>
+
 </body>
-  </html>
-  
+</html>
