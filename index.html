@@ -13,7 +13,26 @@
     <input type="text" id="username" placeholder="Enter Username" required>
     <input type="password" id="password" placeholder="Enter Password" required>
     <button onclick="login()">Login</button>
-    <p style="font-size:14px;">(Hint: Username: <b>admin</b>, Password: <b>1234</b>)</p>
+    <button onclick="showSignup()">Sign Up</button>
+    <button onclick="showForgot()">Forgot Password?</button>
+  </div>
+
+  <!-- Sign-Up Page -->
+  <div id="signupPage" class="card hidden">
+    <h3>📝 Sign Up</h3>
+    <input type="text" id="newUser" placeholder="Choose Username" required>
+    <input type="password" id="newPass" placeholder="Choose Password" required>
+    <button onclick="signup()">Register</button>
+    <button onclick="backToLogin()">Back to Login</button>
+  </div>
+
+  <!-- Forgot Password Page -->
+  <div id="forgotPage" class="card hidden">
+    <h3>🔑 Reset Password</h3>
+    <input type="text" id="forgotUser" placeholder="Enter Username" required>
+    <input type="password" id="resetPass" placeholder="New Password" required>
+    <button onclick="resetPassword()">Reset</button>
+    <button onclick="backToLogin()">Back to Login</button>
   </div>
 
   <!-- Main Form Page -->
@@ -37,9 +56,21 @@
         <th>Area (Ha)</th><th>Plants</th><th>GPS</th>
       </tr>
     </table>
+
     <button onclick="logout()">🚪 Logout</button>
+  </div>
+
+  <!-- Admin Panel -->
+  <div id="adminPage" class="hidden">
+    <h3>👑 Admin Panel – Manage Users</h3>
+    <table id="userTable">
+      <tr>
+        <th>Username</th><th>Password</th><th>Action</th>
+      </tr>
+    </table>
+    <button onclick="backToMain()">⬅ Back to Dashboard</button>
   </div>
 
   <script src="script.js"></script>
 </body>
-</html>
+      </html>
