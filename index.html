@@ -15,84 +15,53 @@
   </style>
 </head>
 <body>
-
-  <div class="container">
-    <h2>Plantation Data Entry</h2>
-    <form id="plantationForm">
-      <label>Range</label>
-      <input type="text" id="range" required>
-
-      <label>Scheme</label>
-      <input type="text" id="scheme" required>
-
-      <label>Model</label>
-      <input type="text" id="model" required>
-
-      <label>Center/Village</label>
-      <input type="text" id="village" required>
-
-      <label>Plantation Area (Ha)</label>
-      <input type="number" id="area" step="0.01" required>
-
-      <label>Plants Planted</label>
-      <input type="number" id="plants" required>
-
-      <label>GPS Coordinates</label>
-      <input type="text" id="gps" placeholder="lat, long" required>
-
-      <button type="submit">Save Data</button>
-    </form>
+<form id="plantationForm">
+  <div class="mb-3">
+    <label for="range" class="form-label">Range</label>
+    <select id="range" class="form-select" required>
+      <option value="">Select Range</option>
+      <option value="Range A">Range A</option>
+      <option value="Range B">Range B</option>
+    </select>
   </div>
 
-  <!-- Firebase -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+  <div class="mb-3">
+    <label for="scheme" class="form-label">Scheme</label>
+    <input type="text" id="scheme" class="form-control" placeholder="Enter Scheme" required>
+  </div>
 
-    const firebaseConfig = {
-      apiKey: "YOUR_API_KEY",
-      authDomain: "YOUR_PROJECT.firebaseapp.com",
-      projectId: "YOUR_PROJECT_ID",
-      storageBucket: "YOUR_PROJECT.appspot.com",
-      messagingSenderId: "YOUR_SENDER_ID",
-      appId: "YOUR_APP_ID"
-    };
+  <div class="mb-3">
+    <label for="plantationDate" class="form-label">Plantation Date</label>
+    <input type="date" id="plantationDate" class="form-control" required>
+  </div>
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
+  <div class="mb-3">
+    <label for="gps" class="form-label">GPS Coordinates</label>
+    <input type="text" id="gps" class="form-control" placeholder="Auto-filled" readonly>
+    <button type="button" onclick="getLocation()" class="btn btn-sm btn-primary mt-1">Get GPS</button>
+  </div>
 
-    // ✅ Ensure only logged-in users can access this page
-    onAuthStateChanged(auth, (user) => {
-      if (!user) {
-        window.location.href = "index.html";
-      }
-    });
+  <div class="mb-3">
+    <label for="photo" class="form-label">Upload Photo</label>
+    <input type="file" id="photo" class="form-control" accept="image/*">
+  </div>
 
-    document.getElementById("plantationForm").addEventListener("submit", async (e) => {
-      e.preventDefault();
+  <button type="submit" class="btn btn-success">Submit</button>
+</form>
 
-      const data = {
-        range: document.getElementById("range").value,
-        scheme: document.getElementById("scheme").value,
-        model: document.getElementById("model").value,
-        village: document.getElementById("village").value,
-        area: parseFloat(document.getElementById("area").value),
-        plants: parseInt(document.getElementById("plants").value),
-        gps: document.getElementById("gps").value,
-        timestamp: new Date()
-      };
-
-      try {
-        await addDoc(collection(db, "plantationData"), data);
-        alert("Data saved successfully!");
-        document.getElementById("plantationForm").reset();
-      } catch (error) {
-        alert("Error: " + error.message);
-      }
-    });
-  </script>
-
+<script>
+function getLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      position => {
+        document.getElementById('gps').value = position.coords.latitude + ", " + position.coords.longitude;
+      },
+      error => { alert("Unable to fetch location"); }
+    );
+  } else {
+    alert("Geolocation is not supported by your browser");
+  }
+}
+</script>
 </body>
 </html>
