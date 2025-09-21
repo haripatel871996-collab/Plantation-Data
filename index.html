@@ -48,7 +48,93 @@
 
   <button type="submit" class="btn btn-success">Submit</button>
 </form>
+<h2>Dashboard</h2>
+<div class="row mb-4">
+  <div class="col">
+    <div class="card p-3 bg-light">
+      <h5>Total Plantations</h5>
+      <p id="totalPlantations">0</p>
+    </div>
+  </div>
+  <div class="col">
+    <div class="card p-3 bg-light">
+      <h5>Total Area (Ha)</h5>
+      <p id="totalArea">0</p>
+    </div>
+  </div>
+  <div class="col">
+    <div class="card p-3 bg-light">
+      <h5>Total Plants</h5>
+      <p id="totalPlants">0</p>
+    </div>
+  </div>
+</div>
 
+<table class="table table-bordered" id="plantationTable">
+  <thead>
+    <tr>
+      <th>Range</th>
+      <th>Scheme</th>
+      <th>Village</th>
+      <th>Area (Ha)</th>
+      <th>Plants Planted</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- Data rows will be added here dynamically -->
+  </tbody>
+</table>
+
+<button class="btn btn-primary" onclick="exportTableToCSV()">Export to CSV</button>
+
+<script>
+let plantationData = []; // This will store all entries
+
+function addPlantationEntry(entry) {
+  plantationData.push(entry);
+  updateDashboard();
+  updateTable();
+}
+
+function updateDashboard() {
+  const totalPlantations = plantationData.length;
+  const totalArea = plantationData.reduce((sum, e) => sum + parseFloat(e.area || 0), 0);
+  const totalPlants = plantationData.reduce((sum, e) => sum + parseInt(e.plants || 0), 0);
+
+  document.getElementById("totalPlantations").innerText = totalPlantations;
+  document.getElementById("totalArea").innerText = totalArea;
+  document.getElementById("totalPlants").innerText = totalPlants;
+}
+
+function updateTable() {
+  const tbody = document.getElementById("plantationTable").querySelector("tbody");
+  tbody.innerHTML = "";
+  plantationData.forEach(entry => {
+    const row = `<tr>
+      <td>${entry.range}</td>
+      <td>${entry.scheme}</td>
+      <td>${entry.village}</td>
+      <td>${entry.area}</td>
+      <td>${entry.plants}</td>
+    </tr>`;
+    tbody.innerHTML += row;
+  });
+}
+
+// CSV Export
+function exportTableToCSV(filename = 'plantation_data.csv') {
+  let csv = 'Range,Scheme,Village,Area (Ha),Plants Planted\n';
+  plantationData.forEach(entry => {
+    csv += `${entry.range},${entry.scheme},${entry.village},${entry.area},${entry.plants}\n`;
+  });
+
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = filename;
+  link.click();
+}
+</script>
 <script>
 function getLocation() {
   if (navigator.geolocation) {
