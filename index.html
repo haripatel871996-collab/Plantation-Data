@@ -135,6 +135,44 @@ function exportTableToCSV(filename = 'plantation_data.csv') {
   link.click();
 }
 </script>
+  <h2>Plantation Map</h2>
+<div id="map" style="height: 400px; width: 100%;"></div>
+
+<!-- Leaflet CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<script>
+// Initialize the map
+var map = L.map('map').setView([20.5937, 78.9629], 5); // Centered on India
+
+// Add OpenStreetMap tiles
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+}).addTo(map);
+
+// Function to add markers from plantationData
+function updateMap() {
+    // Clear existing markers (optional: store in a layer group)
+    if (window.markers) {
+        window.markers.forEach(marker => map.removeLayer(marker));
+    }
+    window.markers = [];
+
+    plantationData.forEach(entry => {
+        if (entry.gps) {
+            const [lat, lng] = entry.gps.split(',').map(Number);
+            const marker = L.marker([lat, lng]).addTo(map)
+                .bindPopup(`<b>${entry.range}</b><br>${entry.scheme}<br>${entry.village}<br>Area: ${entry.area} Ha<br>Plants: ${entry.plants}`);
+            window.markers.push(marker);
+        }
+    });
+}
+
+// Example: Call updateMap() whenever new plantation data is added
+// addPlantationEntry({...}); updateMap();
+</script>
 <script>
 function getLocation() {
   if (navigator.geolocation) {
