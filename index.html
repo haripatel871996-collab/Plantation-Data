@@ -1,191 +1,170 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Plantation Data Entry</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body { font-family: Arial, sans-serif; background:#f9f9f9; padding:20px; }
-    .container { background:#fff; padding:20px; border-radius:10px; max-width:500px; margin:auto; box-shadow:0px 4px 10px rgba(0,0,0,0.2);}
-    h2 { text-align:center; }
-    label { display:block; margin-top:10px; }
-    input, select { width:100%; padding:8px; margin-top:5px; border-radius:6px; border:1px solid #ccc; }
-    button { margin-top:15px; width:100%; padding:10px; border:none; border-radius:6px; background:#28a745; color:#fff; font-size:16px; }
-    button:hover { background:#218838; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plantation Data Entry</title>
+<style>
+    body { font-family: Arial, sans-serif; margin: 20px; background-color: #f9f9f9; }
+    h1 { text-align: center; color: #2c3e50; }
+    form { max-width: 800px; margin: 0 auto; background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    label { display: block; margin-top: 10px; font-weight: bold; }
+    select, input { width: 100%; padding: 8px; margin-top: 5px; border-radius: 5px; border: 1px solid #ccc; }
+    button { margin-top: 15px; padding: 10px 20px; border: none; background-color: #27ae60; color: white; border-radius: 5px; cursor: pointer; }
+    button:hover { background-color: #2ecc71; }
+    table { width: 100%; margin-top: 20px; border-collapse: collapse; }
+    th, td { padding: 10px; border: 1px solid #ccc; text-align: left; }
+    th { background-color: #27ae60; color: white; }
+    .action-btn { background-color: #e74c3c; margin-right: 5px; }
+    .action-btn.edit { background-color: #2980b9; }
+</style>
 </head>
 <body>
+
+<h1>Plantation Data Entry</h1>
+
 <form id="plantationForm">
-  <div class="mb-3">
-    <label for="range" class="form-label">Range</label>
-    <select id="range" class="form-select" required>
-      <option value="">Select Range</option>
-      <option value="Range A">Range A</option>
-      <option value="Range B">Range B</option>
+    <label>Range</label>
+    <select id="range" required>
+        <option value="">Select Range</option>
+        <option value="Lunawada">Lunawada</option>
+        <option value="Khanpur">Khanpur</option>
+        <option value="Balasinor">Balasinor</option>
+        <option value="Santrampur East">Santrampur East</option>
+        <option value="Santrampur West">Santrampur West</option>
+        <option value="Manpur">Manpur</option>
+        <option value="Ditwas">Ditwas</option>
     </select>
-  </div>
 
-  <div class="mb-3">
-    <label for="scheme" class="form-label">Scheme</label>
-    <input type="text" id="scheme" class="form-control" placeholder="Enter Scheme" required>
-  </div>
+    <label>Scheme</label>
+    <select id="scheme" required>
+        <option value="">Select Scheme</option>
+        <option value="Forest Mgmt & Dev (NT)">Forest Mgmt & Dev (NT)</option>
+        <option value="Forest Mgmt & Dev (T)">Forest Mgmt & Dev (T)</option>
+        <option value="PERG (JICA)">PERG (JICA)</option>
+        <option value="CAMPA">CAMPA</option>
+    </select>
 
-  <div class="mb-3">
-    <label for="plantationDate" class="form-label">Plantation Date</label>
-    <input type="date" id="plantationDate" class="form-control" required>
-  </div>
+    <label>Model</label>
+    <select id="model" required>
+        <option value="">Select Model</option>
+        <option value="Afforestation in degraded forest">Afforestation in degraded forest</option>
+        <option value="Aided Artificial regeneration of forest land">Aided Artificial regeneration of forest land</option>
+        <option value="Eco Restoration in Barren areas">Eco Restoration in Barren areas</option>
+        <option value="Bamboo Plantation">Bamboo Plantation</option>
+        <option value="Irrigation Plantation">Irrigation Plantation</option>
+        <option value="Eco-Restoration under GATI-SHAKTI">Eco-Restoration under GATI-SHAKTI</option>
+        <option value="Commercial Planting of Timber Species">Commercial Planting of Timber Species</option>
+        <option value="Protection and development of Sacred Groves">Protection and development of Sacred Groves</option>
+        <option value="Plantation of endangered Species">Plantation of endangered Species</option>
+        <option value="Restoration of Degraded Forest">Restoration of Degraded Forest</option>
+        <option value="Model-3">Model-3</option>
+    </select>
 
-  <div class="mb-3">
-    <label for="gps" class="form-label">GPS Coordinates</label>
-    <input type="text" id="gps" class="form-control" placeholder="Auto-filled" readonly>
-    <button type="button" onclick="getLocation()" class="btn btn-sm btn-primary mt-1">Get GPS</button>
-  </div>
+    <label>Center / Village</label>
+    <input type="text" id="village" required>
 
-  <div class="mb-3">
-    <label for="photo" class="form-label">Upload Photo</label>
-    <input type="file" id="photo" class="form-control" accept="image/*">
-  </div>
+    <label>Plantation Area (Ha)</label>
+    <input type="number" id="area" min="0" required>
 
-  <button type="submit" class="btn btn-success">Submit</button>
+    <label>Plants Planted</label>
+    <input type="number" id="plants" min="0" required>
+
+    <label>GPS Coordinates</label>
+    <input type="text" id="gps" placeholder="Latitude, Longitude" required>
+
+    <button type="submit">Add / Update Record</button>
 </form>
-<h2>Dashboard</h2>
-<div class="row mb-4">
-  <div class="col">
-    <div class="card p-3 bg-light">
-      <h5>Total Plantations</h5>
-      <p id="totalPlantations">0</p>
-    </div>
-  </div>
-  <div class="col">
-    <div class="card p-3 bg-light">
-      <h5>Total Area (Ha)</h5>
-      <p id="totalArea">0</p>
-    </div>
-  </div>
-  <div class="col">
-    <div class="card p-3 bg-light">
-      <h5>Total Plants</h5>
-      <p id="totalPlants">0</p>
-    </div>
-  </div>
-</div>
 
-<table class="table table-bordered" id="plantationTable">
-  <thead>
-    <tr>
-      <th>Range</th>
-      <th>Scheme</th>
-      <th>Village</th>
-      <th>Area (Ha)</th>
-      <th>Plants Planted</th>
-    </tr>
-  </thead>
-  <tbody>
-    <!-- Data rows will be added here dynamically -->
-  </tbody>
+<table id="plantationTable">
+    <thead>
+        <tr>
+            <th>Range</th>
+            <th>Scheme</th>
+            <th>Model</th>
+            <th>Village</th>
+            <th>Area (Ha)</th>
+            <th>Plants</th>
+            <th>GPS</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Records will appear here -->
+    </tbody>
 </table>
 
-<button class="btn btn-primary" onclick="exportTableToCSV()">Export to CSV</button>
-
 <script>
-let plantationData = []; // This will store all entries
+let editIndex = -1;
+const form = document.getElementById('plantationForm');
+const tableBody = document.querySelector('#plantationTable tbody');
 
-function addPlantationEntry(entry) {
-  plantationData.push(entry);
-  updateDashboard();
-  updateTable();
-}
+form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const data = {
+        range: document.getElementById('range').value,
+        scheme: document.getElementById('scheme').value,
+        model: document.getElementById('model').value,
+        village: document.getElementById('village').value,
+        area: document.getElementById('area').value,
+        plants: document.getElementById('plants').value,
+        gps: document.getElementById('gps').value
+    };
 
-function updateDashboard() {
-  const totalPlantations = plantationData.length;
-  const totalArea = plantationData.reduce((sum, e) => sum + parseFloat(e.area || 0), 0);
-  const totalPlants = plantationData.reduce((sum, e) => sum + parseInt(e.plants || 0), 0);
-
-  document.getElementById("totalPlantations").innerText = totalPlantations;
-  document.getElementById("totalArea").innerText = totalArea;
-  document.getElementById("totalPlants").innerText = totalPlants;
-}
-
-function updateTable() {
-  const tbody = document.getElementById("plantationTable").querySelector("tbody");
-  tbody.innerHTML = "";
-  plantationData.forEach(entry => {
-    const row = `<tr>
-      <td>${entry.range}</td>
-      <td>${entry.scheme}</td>
-      <td>${entry.village}</td>
-      <td>${entry.area}</td>
-      <td>${entry.plants}</td>
-    </tr>`;
-    tbody.innerHTML += row;
-  });
-}
-
-// CSV Export
-function exportTableToCSV(filename = 'plantation_data.csv') {
-  let csv = 'Range,Scheme,Village,Area (Ha),Plants Planted\n';
-  plantationData.forEach(entry => {
-    csv += `${entry.range},${entry.scheme},${entry.village},${entry.area},${entry.plants}\n`;
-  });
-
-  const blob = new Blob([csv], { type: 'text/csv' });
-  const link = document.createElement('a');
-  link.href = URL.createObjectURL(blob);
-  link.download = filename;
-  link.click();
-}
-</script>
-  <h2>Plantation Map</h2>
-<div id="map" style="height: 400px; width: 100%;"></div>
-
-<!-- Leaflet CSS -->
-<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-<!-- Leaflet JS -->
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-
-<script>
-// Initialize the map
-var map = L.map('map').setView([20.5937, 78.9629], 5); // Centered on India
-
-// Add OpenStreetMap tiles
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19,
-}).addTo(map);
-
-// Function to add markers from plantationData
-function updateMap() {
-    // Clear existing markers (optional: store in a layer group)
-    if (window.markers) {
-        window.markers.forEach(marker => map.removeLayer(marker));
+    if(editIndex >= 0) {
+        updateRecord(editIndex, data);
+    } else {
+        addRecord(data);
     }
-    window.markers = [];
 
-    plantationData.forEach(entry => {
-        if (entry.gps) {
-            const [lat, lng] = entry.gps.split(',').map(Number);
-            const marker = L.marker([lat, lng]).addTo(map)
-                .bindPopup(`<b>${entry.range}</b><br>${entry.scheme}<br>${entry.village}<br>Area: ${entry.area} Ha<br>Plants: ${entry.plants}`);
-            window.markers.push(marker);
-        }
-    });
+    form.reset();
+    editIndex = -1;
+});
+
+function addRecord(data) {
+    const row = tableBody.insertRow();
+    row.insertCell(0).innerText = data.range;
+    row.insertCell(1).innerText = data.scheme;
+    row.insertCell(2).innerText = data.model;
+    row.insertCell(3).innerText = data.village;
+    row.insertCell(4).innerText = data.area;
+    row.insertCell(5).innerText = data.plants;
+    row.insertCell(6).innerText = data.gps;
+    const actions = row.insertCell(7);
+    actions.innerHTML = `
+        <button class="action-btn edit" onclick="editRecord(this)">Edit</button>
+        <button class="action-btn" onclick="deleteRecord(this)">Delete</button>
+    `;
 }
 
-// Example: Call updateMap() whenever new plantation data is added
-// addPlantationEntry({...}); updateMap();
-</script>
-<script>
-function getLocation() {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(
-      position => {
-        document.getElementById('gps').value = position.coords.latitude + ", " + position.coords.longitude;
-      },
-      error => { alert("Unable to fetch location"); }
-    );
-  } else {
-    alert("Geolocation is not supported by your browser");
-  }
+function editRecord(btn) {
+    const row = btn.parentElement.parentElement;
+    editIndex = row.rowIndex - 1;
+    document.getElementById('range').value = row.cells[0].innerText;
+    document.getElementById('scheme').value = row.cells[1].innerText;
+    document.getElementById('model').value = row.cells[2].innerText;
+    document.getElementById('village').value = row.cells[3].innerText;
+    document.getElementById('area').value = row.cells[4].innerText;
+    document.getElementById('plants').value = row.cells[5].innerText;
+    document.getElementById('gps').value = row.cells[6].innerText;
+}
+
+function updateRecord(index, data) {
+    const row = tableBody.rows[index];
+    row.cells[0].innerText = data.range;
+    row.cells[1].innerText = data.scheme;
+    row.cells[2].innerText = data.model;
+    row.cells[3].innerText = data.village;
+    row.cells[4].innerText = data.area;
+    row.cells[5].innerText = data.plants;
+    row.cells[6].innerText = data.gps;
+}
+
+function deleteRecord(btn) {
+    const row = btn.parentElement.parentElement;
+    tableBody.deleteRow(row.rowIndex - 1);
 }
 </script>
+
 </body>
 </html>
