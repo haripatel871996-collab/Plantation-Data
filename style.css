@@ -1,0 +1,166 @@
+/* Import Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 100vh;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  padding: 30px;
+  margin: 0;
+  color: #f0f0f0;
+}
+
+/* Main container */
+.container {
+  width: 100%;
+  max-width: 1100px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+/* Card-style sections */
+.form-container, .table-container {
+  background: rgba(0,0,0,0.75);
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 6px 25px rgba(0,0,0,0.6);
+}
+
+.form-container h1, .table-container h2 {
+  text-align: center;
+  font-weight: 700;
+  color: #a8ff60;
+  text-shadow: 2px 2px 6px rgba(0,0,0,0.6);
+  margin-bottom: 20px;
+}
+
+/* Form groups */
+.form-group {
+  margin-bottom: 18px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #b2ff59;
+  font-size: 15px;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  font-size: 15px;
+  font-family: 'Poppins', sans-serif;
+  transition: all 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #4caf50;
+  box-shadow: 0 0 10px rgba(76,175,80,0.6);
+}
+
+/* Buttons */
+.submit-btn, .download-btn {
+  display: block;
+  width: 100%;
+  background: linear-gradient(135deg, #43a047, #66bb6a);
+  color: #fff;
+  padding: 14px;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-top: 15px;
+  text-align: center;
+  text-transform: uppercase;
+  font-family: 'Poppins', sans-serif;
+  transition: transform 0.2s ease, background 0.3s ease;
+}
+
+.submit-btn:hover, .download-btn:hover {
+  background: linear-gradient(135deg, #2e7d32, #4caf50);
+  transform: translateY(-2px);
+}
+
+/* Table */
+.search-box {
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.search-box input {
+  width: 60%;
+  padding: 12px;
+  font-size: 15px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  font-family: 'Poppins', sans-serif;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+table, th, td {
+  border: 1px solid #ddd;
+}
+
+th, td {
+  padding: 12px;
+  text-align: center;
+  color: #fff;
+}
+
+th {
+  background-color: #4caf50;
+  color: #fff;
+  font-weight: 600;
+}
+
+tr:nth-child(even) {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Delete button */
+.delete-btn {
+  background: #e53935;
+  color: #fff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  transition: background 0.3s ease;
+}
+
+.delete-btn:hover {
+  background: #b71c1c;
+}
+
+/* Summary Box */
+.summary-box {
+  margin-top: 20px;
+  padding: 15px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 10px;
+  text-align: center;
+  color: #a8ff60;
+  font-size: 17px;
+  font-weight: 600;
+}
